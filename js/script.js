@@ -26,12 +26,39 @@ document.addEventListener("DOMContentLoaded", function(){
         document.dispatchEvent(new Event(RENDER_EVENT));
     }
 
+    function makeTodo(todoObj){
+        const titleTodo = document.createElement("h2");
+        titleTodo.innerText = todoObj.task;
+
+        const dateTodo = document.createElement("p");
+        dateTodo.innerText = todoObj.timestamp;
+
+        const textContainer = document.createElement("div");
+        textContainer.classList.add("inner");
+        textContainer.append(titleTodo, dateTodo);
+
+        const container = document.createElement("div");
+        container.classList.add("item", "shadow");
+
+        container.append(textContainer);
+        container.setAttribute("id", `todo-${todoObj.id}`);
+
+        return container;
+    }
+
     submitForm.addEventListener("submit", e => {
         e.preventDefault();
         addTodo()
     })
 
     document.addEventListener(RENDER_EVENT, function(){
-        console.log(todos);
+        const todoListYgHarusDiLakukan = document.getElementById("todos");
+        todoListYgHarusDiLakukan.innerHTML = "";
+
+        for(let todoItem of todos){
+            const todoEl = makeTodo(todoItem);
+            todoListYgHarusDiLakukan.append(todoEl)
+        }
+
     })
 })
